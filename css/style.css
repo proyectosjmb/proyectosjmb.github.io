@@ -1,0 +1,59 @@
+/* DISEÑO MODERNO Y OSCURO */
+body {
+    background-color: #0f172a; /* Azul marino casi negro */
+    color: #f8fafc; /* Blanco humo */
+    font-family: sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto; /* Centrar todo */
+}
+
+/* ENCABEZADO */
+header {
+    border-bottom: 1px solid #334155;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+}
+
+h1 { font-size: 40px; margin-bottom: 10px; }
+h1 span { color: #38bdf8; } /* Color azul eléctrico para destacar */
+p.subtitle { color: #94a3b8; font-size: 18px; }
+
+/* REJILLA DE TARJETAS */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* TARJETAS */
+.card {
+    background-color: #1e293b;
+    padding: 30px;
+    border-radius: 10px;
+    text-decoration: none; /* Quitar subrayado de enlaces */
+    color: white;
+    display: block;
+    transition: transform 0.2s, border 0.2s;
+    border: 1px solid transparent;
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Se levanta un poco */
+    border: 1px solid #38bdf8; /* Borde brillante */
+    background-color: #334155;
+}
+
+h2 { margin-top: 0; }
+.tag {
+    display: inline-block;
+    margin-top: 15px;
+    color: #38bdf8;
+    font-weight: bold;
+    font-size: 14px;
+    text-transform: uppercase;
+}
