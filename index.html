@@ -2,33 +2,76 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Portafolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JMB Portafolio</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <div class="container">
         <header>
-            <h1>Mis <span>Proyectos</span></h1>
-            <p class="subtitle">Bienvenido a mi colección de código.</p>
+            <h1>JMB <span>Projects</span></h1>
+            <p class="subtitle">Centro de mando de desarrollo, ajedrez e investigación.</p>
         </header>
 
         <div class="grid">
             
-            <a href="web/index.html" class="card">
-                <h2>🌐 Desarrollo Web</h2>
-                <p>Sitios web, aplicaciones y diseños front-end.</p>
-                <span class="tag">Ver Categoría &rarr;</span>
+            <a href="dev/index.html" class="card">
+                <div>
+                    <h2>💻 Dev & Apps</h2>
+                    <p>Aplicaciones funcionales y software.</p>
+                </div>
+                <span class="tag">Ver Proyectos &rarr;</span>
             </a>
 
-            <a href="#" class="card">
-                <h2>🐍 Scripts Python</h2>
-                <p>Automatización y análisis de datos.</p>
-                <span class="tag">Ver Categoría &rarr;</span>
+            <a href="chess/index.html" class="card">
+                <div>
+                    <h2>♟️ Chess Hub</h2>
+                    <p>Maestría Catalana y entrenamiento.</p>
+                </div>
+                <span class="tag">Entrar al Tablero &rarr;</span>
             </a>
 
+            <div onclick="pedirClave('academy/index.html')" class="card">
+                <div>
+                    <h2>🎓 Academy</h2>
+                    <p>Tutoriales y capacitación.</p>
+                </div>
+                <span class="tag">Requiere Acceso 🔒</span>
+            </div>
+
+            <div onclick="pedirClave('life/index.html')" class="card">
+                <div>
+                    <h2>📊 Life OS</h2>
+                    <p>Finanzas y gestión personal.</p>
+                </div>
+                <span class="tag">Privado 🔒</span>
+            </div>
+
+            <a href="research/index.html" class="card">
+                <div>
+                    <h2>🔬 Research Lab</h2>
+                    <p>Investigaciones: Salud y ciencia.</p>
+                </div>
+                <span class="tag">Leer Estudios &rarr;</span>
+            </a>
+
+            <a href="creative/index.html" class="card">
+                <div>
+                    <h2>🎨 Creative Studio</h2>
+                    <p>Novelas, cuentos y arte.</p>
+                </div>
+                <span class="tag">Ver Arte &rarr;</span>
+            </a>
         </div>
     </div>
 
+    <script>
+        function pedirClave(urlDestino) {
+            var password = prompt("🔒 Área Restringida\nIngresa la contraseña:");
+            if (password === "1234") { window.location.href = urlDestino; }
+            else if (password != null) { alert("❌ Contraseña incorrecta"); }
+        }
+    </script>
 </body>
 </html>
