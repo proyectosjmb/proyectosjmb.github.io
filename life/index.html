@@ -2,47 +2,92 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <!-- Juego de caracteres para mostrar bien acentos, ñ, tildes, etc. -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Hace que la página se vea bien en celulares (diseño responsive) -->
+
     <title>Life OS | JMB</title>
+    <!-- Título que aparecerá en la pestaña del navegador -->
+
     <link rel="stylesheet" href="../css/style.css">
+    <!-- Se reutiliza el estilo maestro común a todas las secciones -->
 </head>
+
 <body>
 
     <div class="container">
+        <!-- CONTENEDOR PRINCIPAL: centra el contenido y limita el ancho máximo -->
+
+        <!-- ENLACE / BOTÓN PARA REGRESAR AL PANEL PRINCIPAL -->
         <a href="../index.html" class="back-btn">&larr; Volver al Inicio</a>
 
         <header>
+            <!-- ENCABEZADO DE LA SECCIÓN LIFE OS -->
             <h1>📊 Life <span>OS</span></h1>
+            <!-- El <span> "OS" se estiliza con color de acento en el CSS -->
+
             <p class="subtitle">Gestión, finanzas y optimización personal.</p>
+            <!-- Descripción corta del propósito de Life OS -->
         </header>
 
+        <!-- GRID DE TARJETAS / MÓDULOS DE LIFE OS -->
         <div class="grid">
             
+            <!-- ===== CARD 1 — PROJECT: LEVEL UP ===== -->
             <a href="#" class="card">
+                <!-- 
+                    Toda la tarjeta es clickeable.
+                    Más adelante puedes apuntar esto a una webapp, Notion, dashboard, etc.
+                -->
                 <div>
                     <h3>⚔️ Project: Level Up</h3>
-                    <p>Sistema de gamificación de vida (Estilo Solo Leveling). Panel de logros, retos diarios y recompensas.</p>
+                    <p>
+                        Sistema de gamificación de vida (Estilo Solo Leveling). 
+                        Panel de logros, retos diarios y recompensas.
+                    </p>
                 </div>
                 <span class="tag">Ver Progreso ↗</span>
+                <!-- CTA: indica que se entra a ver el avance / dashboard -->
             </a>
 
+            <!-- ===== CARD 2 — CONTROL FINANCIERO ===== -->
             <a href="#" class="card">
+                <!-- 
+                    Podrás enlazar a tu dashboard financiero (Sheets, app, etc.).
+                -->
                 <div>
                     <h3>💰 Control Financiero</h3>
                     <p>Dashboard de gastos, inversiones y educación financiera.</p>
                 </div>
                 <span class="tag">Privado 🔒</span>
+                <!-- Señal visual de que el acceso está restringido -->
             </a>
 
+            <!-- ===== CARD 3 — INVENTARIO JOYAS & BOLSOS ===== -->
             <a href="#" class="card">
+                <!-- 
+                    Pensado como acceso rápido a tu inventario en Drive / sistema externo.
+                -->
                 <div>
-                    <h3>💎 Inventario Joyas & Bolsos</h3>
+                    <h3>💎 Inventario Joyas &amp; Bolsos</h3>
                     <p>Base de datos visual organizada para consulta rápida en tienda.</p>
-                    <small style="color: #64748b; display: block; margin-top: 5px;">*Vinculado a Google Drive (2TB)</small>
+                    
+                    <!-- 
+                        Nota aclaratoria con estilo inline.
+                        Si quieres, esta parte se puede mover luego a una clase CSS
+                        para mantener el HTML más limpio.
+                    -->
+                    <small style="color: #64748b; display: block; margin-top: 5px;">
+                        *Vinculado a Google Drive (2TB)
+                    </small>
                 </div>
                 <span class="tag">Abrir Galería 📂</span>
+                <!-- CTA enfocada en ver imágenes / recursos -->
             </a>
 
-        </div>
-    </div>
+        </div> <!-- /grid -->
+    </div> <!-- /container -->
+
 </body>
 </html>
