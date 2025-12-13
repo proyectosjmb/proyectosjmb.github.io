@@ -1,0 +1,6 @@
+API key de Gemini para VS Code
+
+(https://aistudio.google.com/app/api-keys)
+
+
+AIzaSyBuRac00PtP0sOH2jpcNTFWGsLZZGxHqlk
