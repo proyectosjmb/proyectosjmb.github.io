@@ -2,43 +2,86 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <!-- Juego de caracteres para mostrar bien acentos y símbolos -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Hace que el sitio sea responsive en móviles -->
+
     <title>Chess Hub | JMB</title>
+    <!-- Título que aparece en la pestaña del navegador -->
+
     <link rel="stylesheet" href="../css/style.css">
+    <!-- Reutiliza el mismo estilo maestro que el index principal -->
 </head>
+
 <body>
 
     <div class="container">
+        <!-- CONTENEDOR PRINCIPAL QUE CENTRA TODO EL CONTENIDO -->
+
+        <!-- BOTÓN / ENLACE PARA VOLVER A LA PÁGINA PRINCIPAL -->
         <a href="../index.html" class="back-btn">&larr; Volver al Inicio</a>
 
         <header>
+            <!-- ENCABEZADO DE LA SECCIÓN CHESS HUB -->
             <h1>♟️ Chess <span>Hub</span></h1>
-            <p class="subtitle">Entrenamiento táctico, aperturas y legado magistral.</p>
+            <!-- "Hub" usa el mismo estilo del span que en el index general -->
+            
+            <p class="subtitle">
+                Entrenamiento táctico, aperturas y legado magistral.
+            </p>
+            <!-- Descripción corta del área de ajedrez -->
         </header>
 
+        <!-- GRID DE TARJETAS DEL CHESS HUB -->
         <div class="grid">
             
-            <a href="https://proyectosjmb.github.io/tutoriales-ajedrez/" target="_blank" class="card">
+            <!-- ===== CARD 1 — MAESTRÍA CATALANA ===== -->
+            <a href="https://proyectosjmb.github.io/tutoriales-ajedrez/" 
+               target="_blank" 
+               class="card">
+                <!-- 
+                    target="_blank": abre el curso en una nueva pestaña.
+                -->
                 <div>
                     <h3>🐴 Maestría Catalana</h3>
                     <p>Tutor interactivo: Fundamentos, tablero y ejercicios prácticos.</p>
                 </div>
                 <span class="tag">Jugar Ahora ↗</span>
+                <!-- CTA para ir directo al recurso externo -->
             </a>
 
+            <!-- ===== CARD 2 — AJEDREZ DESDE CERO (EN PRODUCCIÓN) ===== -->
             <a href="#" class="card">
+                <!-- 
+                    Por ahora apunta a "#", es decir, no lleva a ningún lado.
+                    Cuando tengas el curso, aquí puedes cambiar el href.
+                -->
                 <div>
                     <h3>👸 Ajedrez desde Cero</h3>
                     <p>Curso introductorio paso a paso (Tutoriales familiares).</p>
                 </div>
                 <span class="tag">En Producción 🚧</span>
+                <!-- Indicador de que el contenido aún no está listo -->
             </a>
 
+            <!-- ===== CARD 3 — BIBLIOTECA DE ESTUDIOS (LISTA ESTÁTICA) ===== -->
             <div class="card" style="cursor: default;">
+                <!-- 
+                    Se usa <div> en vez de <a> porque esta tarjeta no es clickeable.
+                    style="cursor: default;" evita que se vea como botón interactivo.
+                -->
                 <div>
                     <h3>📚 Biblioteca de Estudios</h3>
                     <p>Temas en desarrollo para nivel avanzado:</p>
+                    
+                    <!-- 
+                        Lista de temas dentro de la tarjeta.
+                        NOTA: aquí tienes estilos inline. Más adelante podrías pasar
+                        esto a CSS si quieres mantener todo más limpio.
+                    -->
                     <ul style="margin-top: 10px; padding-left: 20px; color: #94a3b8; font-size: 0.9rem;">
-                        <li>Ajedrez Magistral & Bobby Fischer</li>
+                        <li>Ajedrez Magistral &amp; Bobby Fischer</li>
                         <li>Mi Sistema: Profilaxis y Bloqueo</li>
                         <li>Apertura Italiana para Jóvenes</li>
                     </ul>
@@ -46,7 +89,8 @@
                 <span class="tag">Próximamente 📅</span>
             </div>
 
-        </div>
-    </div>
+        </div> <!-- /grid -->
+    </div> <!-- /container -->
+
 </body>
 </html>
