@@ -2,76 +2,158 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JMB Portafolio</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
+    <!-- 
+        ESTABLECE EL JUEGO DE CARACTERES.
+        Ayuda a que acentos y caracteres especiales se muestren bien.
+    -->
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 
+        PERMITE QUE LA PÁGINA SEA RESPONSIVA.
+        Hace que el contenido se adapte a pantallas móviles.
+    -->
+    
+    <title>Portafolio Principal | JMB</title>
+    <!-- 
+        TÍTULO DEL SITIO: Aparece en la pestaña del navegador.
+    -->
+
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 
+        IMPORTA EL ARCHIVO DE ESTILOS PRINCIPAL.
+        Aquí se controla el diseño visual: colores, tamaños, márgenes, etc.
+    -->
+</head>
+
+<body>
     <div class="container">
+        <!-- 
+            CONTENEDOR GENERAL: agrupa todo el contenido principal para centrarlo
+            y limitar el ancho según lo que defina el CSS.
+        -->
+
         <header>
-            <h1>JMB <span>Projects</span></h1>
+            <!-- ENCABEZADO PRINCIPAL DEL SITIO -->
+
+            <h1>
+                JMB 
+                <span>Projects</span>
+            </h1>
+            <!-- 
+                TÍTULO PRINCIPAL + SPAN: Texto dividido para estilizar 
+                "JMB" y "Projects" por separado.
+            -->
+            
             <p class="subtitle">Centro de mando de desarrollo, ajedrez e investigación.</p>
+            <!-- DESCRIPCIÓN CORTA DEL SITIO -->
         </header>
 
         <div class="grid">
+            <!-- 
+                GRID PRINCIPAL:
+                Aquí se colocan las "cards" que funcionan como accesos
+                a los distintos módulos del portafolio.
+            -->
             
+            <!-- ===== CARD 1 — DEV & APPS ===== -->
             <a href="dev/index.html" class="card">
+                <!-- 
+                    Los <a> funcionan como tarjetas clickeables completas.
+                -->
+                
                 <div>
-                    <h2>💻 Dev & Apps</h2>
+                    <h2>Dev & Apps</h2> 
                     <p>Aplicaciones funcionales y software.</p>
                 </div>
+                
                 <span class="tag">Ver Proyectos &rarr;</span>
+                <!-- TAG DE ACCIÓN: mensaje tipo CTA -->
             </a>
 
+            <!-- ===== CARD 2 — CHESS HUB ===== -->
             <a href="chess/index.html" class="card">
                 <div>
-                    <h2>♟️ Chess Hub</h2>
+                    <h2>Chess Hub</h2>
                     <p>Maestría Catalana y entrenamiento.</p>
                 </div>
                 <span class="tag">Entrar al Tablero &rarr;</span>
             </a>
 
+            <!-- ===== CARD 3 — ACADEMY (Protegido por contraseña) ===== -->
             <div onclick="pedirClave('academy/index.html')" class="card">
+                <!-- 
+                    Esta card NO usa <a>.
+                    En su lugar dispara una función JS que pide una contraseña.
+                -->
                 <div>
-                    <h2>🎓 Academy</h2>
+                    <h2>Academy</h2>
                     <p>Tutoriales y capacitación.</p>
                 </div>
-                <span class="tag">Requiere Acceso 🔒</span>
+                <span class="tag">Requiere Acceso</span>
             </div>
 
+            <!-- ===== CARD 4 — LIFE OS (Protegido por contraseña) ===== -->
             <div onclick="pedirClave('life/index.html')" class="card">
                 <div>
-                    <h2>📊 Life OS</h2>
+                    <h2>Life OS</h2>
                     <p>Finanzas y gestión personal.</p>
                 </div>
-                <span class="tag">Privado 🔒</span>
+                <span class="tag">Privado</span>
             </div>
 
+            <!-- ===== CARD 5 — RESEARCH LAB ===== -->
             <a href="research/index.html" class="card">
                 <div>
-                    <h2>🔬 Research Lab</h2>
+                    <h2>Research Lab</h2>
                     <p>Investigaciones: Salud y ciencia.</p>
                 </div>
                 <span class="tag">Leer Estudios &rarr;</span>
             </a>
 
+            <!-- ===== CARD 6 — CREATIVE STUDIO ===== -->
             <a href="creative/index.html" class="card">
                 <div>
-                    <h2>🎨 Creative Studio</h2>
+                    <h2>Creative Studio</h2>
                     <p>Novelas, cuentos y arte.</p>
                 </div>
                 <span class="tag">Ver Arte &rarr;</span>
             </a>
-        </div>
-    </div>
 
+        </div>
+    </div> 
+
+    <!-- ========================================== -->
+    <!-- ========== SCRIPT DE SEGURIDAD SIMPLE ===== -->
+    <!-- ========================================== -->
     <script>
+        /**
+         * FUNCIÓN: pedirClave
+         * --------------------------------------------
+         * OBJETIVO:
+         *   Solicita una contraseña antes de permitir acceso a ciertas secciones.
+         *
+         * PARÁMETRO (urlDestino):
+         *   Dirección a donde se hará la redirección si la clave es correcta.
+         */
+
         function pedirClave(urlDestino) {
-            var password = prompt("🔒 Área Restringida\nIngresa la contraseña:");
-            if (password === "1234") { window.location.href = urlDestino; }
-            else if (password != null) { alert("❌ Contraseña incorrecta"); }
+            
+            // Solicita la contraseña mediante un prompt.
+            var password = prompt("Área restringida\nIngresa la contraseña:");
+            
+            // Si la contraseña ES exactamente "1234", permitimos el acceso.
+            if (password === "1234") { 
+                window.location.href = urlDestino;  // Redirección
+                
+            } else if (password != null) { 
+                // Si escribió algo pero NO coincide con la clave.
+                alert("Contraseña incorrecta"); 
+            }
+
+            // Si presiona "Cancelar", password será null,
+            // por lo que no pasa nada y permanece en la página actual.
         }
     </script>
+
 </body>
 </html>
