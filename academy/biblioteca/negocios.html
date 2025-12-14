@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Negocios | Biblioteca</title>
+  <link rel="stylesheet" href="../../css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <a href="index.html" class="back-btn">&larr; Volver a Biblioteca</a>
+
+    <header>
+      <h1>💼 <span>Negocios</span></h1>
+      <p class="subtitle">Próximamente: ventas, operación, estrategia y finanzas.</p>
+    </header>
+
+    <label class="sr-only" for="search">Buscar</label>
+    <input
+      id="search"
+      class="search-bar"
+      type="search"
+      inputmode="search"
+      autocomplete="off"
+      placeholder="Buscar dentro de Negocios…"
+      aria-label="Buscar dentro de Negocios"
+    />
+
+    <div id="results" class="list" aria-live="polite"></div>
+  </div>
+
+  <script type="module">
+    import { items } from "./data.js";
+
+    const CATEGORY = "negocios";
+    const searchInput = document.getElementById("search");
+    const results = document.getElementById("results");
+
+    function normalizeText(value) {
+      return String(value ?? "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
+
+    function matchesQuery(item, query) {
+      if (!query) return true;
+      const haystack = [item.title, item.category, ...(Array.isArray(item.tags) ? item.tags : [])]
+        .map(normalizeText)
+        .join(" ");
+      return haystack.includes(query);
+    }
+
+    function createTagBadge(tag) {
+      const badge = document.createElement("span");
+      badge.className = "badge";
+      badge.textContent = tag;
+      return badge;
+    }
+
+    function createItemRow(item) {
+      const row = document.createElement("div");
+      row.className = "item";
+
+      const main = document.createElement("div");
+      main.className = "item-main";
+
+      const title = document.createElement("h3");
+      title.textContent = item.title;
+
+      const meta = document.createElement("div");
+      meta.className = "item-meta";
+
+      const date = document.createElement("span");
+      date.textContent = item.date ? item.date : "";
+
+      const tagsWrap = document.createElement("div");
+      tagsWrap.className = "item-tags";
+      (Array.isArray(item.tags) ? item.tags : []).forEach((t) => tagsWrap.appendChild(createTagBadge(t)));
+
+      meta.appendChild(date);
+      meta.appendChild(tagsWrap);
+
+      main.appendChild(title);
+      main.appendChild(meta);
+
+      const actions = document.createElement("div");
+      actions.className = "item-actions";
+
+      const listen = document.createElement("a");
+      listen.className = "btn";
+      listen.href = item.audioUrl;
+      listen.target = "_blank";
+      listen.rel = "noopener";
+      listen.textContent = "Escuchar 🎧";
+
+      const read = document.createElement("a");
+      read.className = "btn";
+      read.href = item.textUrl;
+      read.target = "_blank";
+      read.rel = "noopener";
+      read.textContent = "Leer 📄";
+
+      actions.appendChild(listen);
+      actions.appendChild(read);
+
+      row.appendChild(main);
+      row.appendChild(actions);
+      return row;
+    }
+
+    function renderList(list) {
+      results.replaceChildren();
+
+      if (!list.length) {
+        const empty = document.createElement("div");
+        empty.className = "item";
+        empty.textContent = "Aún no hay items en esta categoría.";
+        results.appendChild(empty);
+        return;
+      }
+
+      list.forEach((item) => results.appendChild(createItemRow(item)));
+    }
+
+    function applyFilter() {
+      const query = normalizeText(searchInput.value);
+      const filtered = items.filter((i) => i.category === CATEGORY).filter((i) => matchesQuery(i, query));
+      renderList(filtered);
+    }
+
+    searchInput.addEventListener("input", applyFilter);
+    applyFilter();
+  </script>
+</body>
+</html>
+
