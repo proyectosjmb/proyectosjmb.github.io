@@ -2,33 +2,158 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <!-- Juego de caracteres para mostrar bien acentos, ñ, tildes, etc. -->
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Hace que la página se vea bien en celulares (diseño responsive) -->
-
     <title>Life OS | JMB</title>
-    <!-- Título que aparecerá en la pestaña del navegador -->
 
-    <link rel="stylesheet" href="../css/style.css">
-    <!-- Se reutiliza el estilo maestro común a todas las secciones -->
+    <!-- ESTILOS: Integrados aquí para asegurar que se vea bien al subirlo. 
+         Si prefieres usar tu archivo externo, borra las etiquetas <style> y descomenta el <link> -->
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #3b82f6;
+            --accent-hover: #2563eb;
+            --tag-bg: #eff6ff;
+            --tag-text: #3b82f6;
+            --border-radius: 16px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-hover: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 2rem 1rem;
+            line-height: 1.5;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Botón Volver */
+        .back-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            margin-bottom: 2rem;
+            transition: color 0.2s;
+        }
+        .back-btn:hover { color: var(--accent); }
+
+        /* Header */
+        header { margin-bottom: 3rem; text-align: center; }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -0.05em;
+        }
+        
+        h1 span { color: var(--accent); }
+        
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Tarjetas */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+            border: 1px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(59, 130, 246, 0.1);
+        }
+
+        .card h3 {
+            margin: 0 0 1rem 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            margin: 0;
+            font-size: 0.95rem;
+        }
+
+        /* Tags / Botones dentro de cards */
+        .tag {
+            display: inline-block;
+            margin-top: 1.5rem;
+            background: var(--tag-bg);
+            color: var(--tag-text);
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            align-self: flex-start;
+            transition: background 0.2s;
+        }
+
+        .card:hover .tag {
+            background: var(--accent);
+            color: white;
+        }
+        
+        /* Estilos específicos para las tarjetas */
+        /* Card Privada (2da tarjeta) */
+        .card:nth-child(2) .tag { background: #fef2f2; color: #ef4444; }
+        .card:nth-child(2):hover .tag { background: #ef4444; color: white; }
+
+        /* Card Receta Meta Ads (Última tarjeta - Destacada) */
+        .card:last-child {
+            border: 2px solid #fdba74; /* Naranja suave */
+            background: linear-gradient(to bottom right, #fff, #fff7ed);
+        }
+        .card:last-child h3 { color: #ea580c; }
+        .card:last-child .tag { background: #ffedd5; color: #c2410c; }
+        .card:last-child:hover .tag { background: #ea580c; color: white; }
+    </style>
+    
+    <!-- <link rel="stylesheet" href="../css/style.css"> --> 
+
 </head>
 
 <body>
 
     <div class="container">
-        <!-- CONTENEDOR PRINCIPAL: centra el contenido y limita el ancho máximo -->
-
         <!-- ENLACE / BOTÓN PARA REGRESAR AL PANEL PRINCIPAL -->
         <a href="../index.html" class="back-btn">&larr; Volver al Inicio</a>
 
         <header>
             <!-- ENCABEZADO DE LA SECCIÓN LIFE OS -->
             <h1>📊 Life <span>OS</span></h1>
-            <!-- El <span> "OS" se estiliza con color de acento en el CSS -->
-
             <p class="subtitle">Gestión, finanzas y optimización personal.</p>
-            <!-- Descripción corta del propósito de Life OS -->
         </header>
 
         <!-- GRID DE TARJETAS / MÓDULOS DE LIFE OS -->
@@ -36,10 +161,6 @@
             
             <!-- ===== CARD 1 — PROJECT: LEVEL UP ===== -->
             <a href="#" class="card">
-                <!-- 
-                    Toda la tarjeta es clickeable.
-                    Más adelante puedes apuntar esto a una webapp, Notion, dashboard, etc.
-                -->
                 <div>
                     <h3>⚔️ Project: Level Up</h3>
                     <p>
@@ -48,42 +169,40 @@
                     </p>
                 </div>
                 <span class="tag">Ver Progreso ↗</span>
-                <!-- CTA: indica que se entra a ver el avance / dashboard -->
             </a>
 
             <!-- ===== CARD 2 — CONTROL FINANCIERO ===== -->
             <a href="#" class="card">
-                <!-- 
-                    Podrás enlazar a tu dashboard financiero (Sheets, app, etc.).
-                -->
                 <div>
                     <h3>💰 Control Financiero</h3>
                     <p>Dashboard de gastos, inversiones y educación financiera.</p>
                 </div>
                 <span class="tag">Privado 🔒</span>
-                <!-- Señal visual de que el acceso está restringido -->
             </a>
 
             <!-- ===== CARD 3 — INVENTARIO JOYAS & BOLSOS ===== -->
             <a href="#" class="card">
-                <!-- 
-                    Pensado como acceso rápido a tu inventario en Drive / sistema externo.
-                -->
                 <div>
                     <h3>💎 Inventario Joyas &amp; Bolsos</h3>
                     <p>Base de datos visual organizada para consulta rápida en tienda.</p>
                     
-                    <!-- 
-                        Nota aclaratoria con estilo inline.
-                        Si quieres, esta parte se puede mover luego a una clase CSS
-                        para mantener el HTML más limpio.
-                    -->
-                    <small style="color: #64748b; display: block; margin-top: 5px;">
+                    <small style="color: #64748b; display: block; margin-top: 10px; font-size: 0.8rem;">
                         *Vinculado a Google Drive (2TB)
                     </small>
                 </div>
                 <span class="tag">Abrir Galería 📂</span>
-                <!-- CTA enfocada en ver imágenes / recursos -->
+            </a>
+
+            <!-- ===== CARD 4 — RECETA META ADS 2026 (NUEVO) ===== -->
+            <a href="https://proyectosjmb.github.io/RecetaMetaAds/" class="card" target="_blank">
+                <div>
+                    <h3>👨‍🍳 Receta Meta Ads 2026</h3>
+                    <p>
+                        Web App gamificada para configurar la infraestructura de anuncios de Soy Brillante.
+                        Checkout interactivo de ingredientes.
+                    </p>
+                </div>
+                <span class="tag">Cocinar Ahora 🥘</span>
             </a>
 
         </div> <!-- /grid -->
