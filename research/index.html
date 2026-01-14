@@ -1,41 +1,24 @@
-<!-- 
-    ****************************************************************************
-    🟢 ARCHIVO: research/index.html
-    UBICACIÓN: Carpeta "research"
-    
-    DESCRIPCIÓN:
-    Laboratorio de Investigación + Bandeja de Entrada (Inbox).
-    ACTUALIZACIÓN: Botón moderno y sistema de EDICIÓN de notas.
-    ****************************************************************************
--->
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- ======================================================= -->
-    <!-- 🟢 CONFIGURACIÓN TÉCNICA -->
-    <!-- ======================================================= -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Research Lab | JMB</title>
 
-    <!-- CONEXIÓN CSS -->
     <link rel="stylesheet" href="../css/style.css">
 
-    <!-- 🟢 ESTILOS EXTRA (CSS INTERNO) -->
     <style>
-        /* Estilo para el área de captura */
+        /* --- ÁREA DE CAPTURA --- */
         .input-zone {
             background-color: #1e293b;
             padding: 25px;
-            border-radius: 16px; /* Bordes más redondeados */
+            border-radius: 16px;
             margin-bottom: 30px;
             border: 1px solid #334155;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Inputs (Cajas de texto) */
+        /* Inputs Generales */
         .input-field {
             width: 100%;
             padding: 15px;
@@ -48,20 +31,22 @@
             transition: border-color 0.3s;
         }
 
-        .input-field:focus {
-            outline: none;
-            border-color: #38bdf8; /* Azul al escribir */
+        .input-field:focus { outline: none; border-color: #38bdf8; }
+        textarea.input-field { min-height: 100px; resize: vertical; }
+
+        /* --- NUEVO: DROPDOWN DE CATEGORÍA --- */
+        select.input-field {
+            cursor: pointer;
+            appearance: none; /* Quita el estilo por defecto del navegador */
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2338bdf8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px top 50%;
+            background-size: 12px auto;
         }
 
-        textarea.input-field {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        /* --- BOTÓN MODERNO (FLOTANTE) --- */
+        /* --- BOTÓN GUARDAR --- */
         .btn-save {
             width: 100%;
-            /* Degradado moderno */
             background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
             color: white;
             padding: 15px 25px;
@@ -72,26 +57,62 @@
             cursor: pointer;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            
-            /* Efecto de sombra y flotación */
             box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.3s;
+            margin-bottom: 15px;
+        }
+        .btn-save:hover { transform: translateY(-3px); box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.5); filter: brightness(1.1); }
+        .btn-save.editing { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4); }
+
+        /* --- BARRA DE RESPALDO (Backup & Restore) --- */
+        .backup-bar {
+            display: flex;
+            justify-content: space-between; /* Botones separados */
+            border-top: 1px solid #334155;
+            padding-top: 15px;
+            gap: 10px;
         }
 
-        .btn-save:hover {
-            transform: translateY(-3px); /* Se eleva */
-            box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.5); /* Sombra crece */
-            filter: brightness(1.1);
+        .btn-backup {
+            background-color: transparent;
+            padding: 8px 15px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s;
+            flex: 1; /* Para que ocupen el mismo ancho */
+            justify-content: center;
         }
 
-        .btn-save:active {
-            transform: translateY(1px); /* Efecto de clic */
-        }
+        .btn-download { border: 1px solid #10b981; color: #10b981; }
+        .btn-download:hover { background-color: #10b981; color: #0f172a; }
 
-        /* Estilo diferente cuando estamos EDITANDO */
-        .btn-save.editing {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); /* Naranja */
-            box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4);
+        .btn-upload { border: 1px solid #a855f7; color: #a855f7; } /* Morado */
+        .btn-upload:hover { background-color: #a855f7; color: white; }
+
+        /* --- NUEVO: BARRA DE BÚSQUEDA --- */
+        .search-container {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 12px 15px 12px 40px; /* Espacio para el icono */
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 30px; /* Redondo */
+            font-size: 0.95rem;
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
         }
 
         /* --- TARJETAS DE IDEAS --- */
@@ -99,48 +120,41 @@
             background-color: #1e293b;
             padding: 20px;
             border-radius: 12px;
-            border-left: 5px solid #38bdf8;
+            border-left: 5px solid #94a3b8; /* Gris por defecto */
             margin-bottom: 20px;
             position: relative;
             animation: fadeIn 0.5s ease;
         }
 
-        /* Animación de entrada suave */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* Colores de Borde según Categoría */
+        .border-salud { border-left-color: #22c55e !important; }   /* Verde */
+        .border-sociedad { border-left-color: #3b82f6 !important; } /* Azul */
+        .border-energia { border-left-color: #eab308 !important; }  /* Amarillo */
+        .border-general { border-left-color: #94a3b8 !important; }  /* Gris */
+
+        /* Etiquetas (Tags) dentro de la tarjeta */
+        .cat-tag {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            text-transform: uppercase;
         }
+        .tag-salud { background-color: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .tag-sociedad { background-color: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .tag-energia { background-color: rgba(234, 179, 8, 0.2); color: #facc15; }
+        .tag-general { background-color: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
 
-        /* BOTONES DE ACCIÓN (Editar / Borrar) */
-        .action-buttons {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            display: flex;
-            gap: 10px;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        .icon-btn {
-            background: rgba(15, 23, 42, 0.5);
-            border: none;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            font-size: 1rem;
-        }
-
-        .btn-edit { color: #f59e0b; } /* Lápiz amarillo */
-        .btn-edit:hover { background-color: #f59e0b; color: #fff; }
-
-        .btn-delete { color: #ef4444; } /* Tache rojo */
-        .btn-delete:hover { background-color: #ef4444; color: #fff; }
+        /* Botones Acción */
+        .action-buttons { position: absolute; top: 15px; right: 15px; display: flex; gap: 10px; }
+        .icon-btn { background: rgba(15, 23, 42, 0.5); border: none; width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 1rem; }
+        .btn-edit { color: #f59e0b; } .btn-edit:hover { background-color: #f59e0b; color: #fff; }
+        .btn-delete { color: #ef4444; } .btn-delete:hover { background-color: #ef4444; color: #fff; }
         
-        /* Links dentro de las notas */
         .idea-content a { color: #38bdf8; text-decoration: underline; }
     </style>
 </head>
@@ -149,7 +163,6 @@
 
     <div class="container">
         
-        <!-- BOTÓN VOLVER -->
         <a href="../index.html" class="back-btn">&larr; Volver al Inicio</a>
 
         <header>
@@ -157,56 +170,57 @@
             <p class="subtitle">Bandeja de entrada de ideas e investigaciones profundas.</p>
         </header>
 
-        <!-- ======================================================= -->
-        <!-- 🟢 SECCIÓN 1: CAPTURA RÁPIDA (INBOX) -->
-        <!-- ======================================================= -->
         <div class="input-zone" id="zonaFormulario">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                 <h3>📥 Captura Rápida</h3>
-                <!-- Indicador visual de modo edición (oculto por defecto) -->
                 <span id="indicadorEdicion" style="display: none; color: #f59e0b; font-size: 0.9rem; font-weight: bold;">✏️ MODO EDICIÓN</span>
             </div>
             
-            <!-- Campo oculto para saber si estamos editando una ID específica -->
             <input type="hidden" id="idEdicion" value="">
+
+            <select id="categoriaInput" class="input-field">
+                <option value="General">📂 General / Sin Categoría</option>
+                <option value="Salud">🌿 Salud & Biohacking</option>
+                <option value="Sociedad">⚖️ Sociedad & Economía</option>
+                <option value="Energia">🔮 Energía & Esoterismo</option>
+            </select>
 
             <input type="text" id="tituloInput" class="input-field" placeholder="Título de la idea (Ej: Video sobre ayuno...)">
             <textarea id="notaInput" class="input-field" placeholder="Pega aquí URLs, notas rápidas o referencias..."></textarea>
             
             <button onclick="guardarIdea()" id="btnGuardar" class="btn-save">💾 Guardar en Bandeja</button>
-            
-            <!-- Botón para cancelar edición (oculto por defecto) -->
-            <button onclick="cancelarEdicion()" id="btnCancelar" style="display: none; width: 100%; margin-top: 10px; background: transparent; border: 1px solid #475569; color: #94a3b8; padding: 10px; border-radius: 6px; cursor: pointer;">Cancelar Edición</button>
+            <button onclick="cancelarEdicion()" id="btnCancelar" style="display: none; width: 100%; margin-bottom: 15px; background: transparent; border: 1px solid #475569; color: #94a3b8; padding: 10px; border-radius: 6px; cursor: pointer;">Cancelar Edición</button>
+
+            <div class="backup-bar">
+                <button onclick="descargarRespaldo()" class="btn-backup btn-download" title="Descargar JSON">
+                    ⬇️ Respaldar
+                </button>
+                
+                <input type="file" id="fileInput" accept=".json" style="display: none;" onchange="procesarArchivo(this)">
+                
+                <button onclick="document.getElementById('fileInput').click()" class="btn-backup btn-upload" title="Subir JSON">
+                    ⬆️ Restaurar
+                </button>
+            </div>
         </div>
 
-        <!-- CONTENEDOR DE IDEAS DINÁMICAS -->
-        <div id="contenedorIdeas" class="grid" style="margin-bottom: 4rem;">
-            <!-- Aquí se inyectan las tarjetas con JS -->
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="busquedaInput" class="search-input" placeholder="Buscar en tus notas..." onkeyup="filtrarIdeas()">
         </div>
 
+        <div id="contenedorIdeas" class="grid" style="margin-bottom: 4rem;"></div>
 
-        <!-- ======================================================= -->
-        <!-- 🟢 SECCIÓN 2: LÍNEAS DE INVESTIGACIÓN (ESTÁTICAS) -->
-        <!-- ======================================================= -->
         <h2 style="margin-bottom: 20px; border-top: 1px solid #334155; padding-top: 20px;">🗂️ Archivos de Investigación</h2>
         
         <div class="grid">
-            
-            <!-- CARD 1 -->
             <a href="#" class="card">
                 <div>
                     <h3>🌿 Salud & Biohacking</h3>
                     <p>Protocolos de optimización física.</p>
-                    <ul style="margin-top: 10px; padding-left: 20px; color: #94a3b8; font-size: 0.85rem;">
-                        <li>Aumentar Testosterona & Alimentación Consciente</li>
-                        <li>Investigación Resveratrol</li>
-                        <li>Orégano, Disbiosis y Herbolaria</li>
-                    </ul>
                 </div>
                 <span class="tag">Leer Notas 📄</span>
             </a>
-
-            <!-- CARD 2 -->
             <a href="#" class="card">
                 <div>
                     <h3>⚖️ Sociedad y Economía</h3>
@@ -214,8 +228,6 @@
                 </div>
                 <span class="tag">Leer Ensayos 📄</span>
             </a>
-
-            <!-- CARD 3 -->
             <a href="#" class="card">
                 <div>
                     <h3>🔮 Energía & Herramientas</h3>
@@ -223,100 +235,100 @@
                 </div>
                 <span class="tag">Ver Investigación 📄</span>
             </a>
-
         </div>
     </div>
 
 
-    <!-- ======================================================= -->
-    <!-- 🟢 CEREBRO JAVASCRIPT: LÓGICA DE GUARDADO Y EDICIÓN -->
-    <!-- ======================================================= -->
     <script>
-        // Cargar ideas al iniciar
-        document.addEventListener('DOMContentLoaded', cargarIdeas);
+        document.addEventListener('DOMContentLoaded', () => cargarIdeas());
 
-        /**
-         * FUNCIÓN PRINCIPAL: Guardar o Actualizar
-         * Decide si crea una nueva o modifica una existente según si hay un ID oculto.
-         */
+        // --- 1. GUARDAR / EDITAR ---
         function guardarIdea() {
             const titulo = document.getElementById('tituloInput').value;
             const nota = document.getElementById('notaInput').value;
-            const idEdicion = document.getElementById('idEdicion').value; // ¿Hay un ID pendiente?
+            const categoria = document.getElementById('categoriaInput').value; // Nueva categoría
+            const idEdicion = document.getElementById('idEdicion').value;
 
-            if (titulo.trim() === "") {
-                alert("⚠️ Por favor escribe un título.");
-                return;
-            }
+            if (titulo.trim() === "") { alert("⚠️ Falta el título."); return; }
 
-            // Recuperar lista actual
             let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
 
             if (idEdicion) {
-                // --- MODO ACTUALIZAR ---
-                // Buscamos la idea vieja y le cambiamos los datos
+                // Editar existente
                 const indice = listaIdeas.findIndex(idea => idea.id == idEdicion);
                 if (indice !== -1) {
                     listaIdeas[indice].titulo = titulo;
                     listaIdeas[indice].nota = nota;
-                    // No cambiamos la fecha original, o podríamos poner fecha de edición
+                    listaIdeas[indice].categoria = categoria; // Actualizar categoría
                 }
-                // Salimos del modo edición
                 cancelarEdicion();
             } else {
-                // --- MODO CREAR NUEVO ---
+                // Crear nueva
                 const nuevaIdea = {
                     id: Date.now(),
                     titulo: titulo,
                     nota: nota,
+                    categoria: categoria, // Guardar categoría
                     fecha: new Date().toLocaleDateString()
                 };
-                listaIdeas.unshift(nuevaIdea); // Agregar al principio
+                listaIdeas.unshift(nuevaIdea);
             }
 
-            // Guardar en navegador y refrescar pantalla
             localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
             
-            // Limpiar formulario solo si no estamos editando (aunque cancelarEdicion ya lo hace)
             if (!idEdicion) {
                 document.getElementById('tituloInput').value = "";
                 document.getElementById('notaInput').value = "";
+                document.getElementById('categoriaInput').value = "General"; // Resetear select
             }
-            
             cargarIdeas();
         }
 
-        /**
-         * FUNCIÓN: Cargar Ideas
-         * Dibuja las tarjetas en la pantalla
-         */
-        function cargarIdeas() {
+        // --- 2. CARGAR Y PINTAR (Con Filtro de Búsqueda) ---
+        function cargarIdeas(filtro = "") {
             let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
             const contenedor = document.getElementById('contenedorIdeas');
             contenedor.innerHTML = "";
 
-            listaIdeas.forEach(idea => {
-                let notaFormat = idea.nota.replace(/\n/g, "<br>");
+            // Aplicar Filtro de Búsqueda
+            const ideasFiltradas = listaIdeas.filter(idea => {
+                const textoCompleto = (idea.titulo + " " + idea.nota).toLowerCase();
+                return textoCompleto.includes(filtro.toLowerCase());
+            });
 
-                // Detectar URLs básicas para hacerlas clicables
-                // (Expresión regular simple para detectar http/https)
+            if (listaIdeas.length > 0 && ideasFiltradas.length === 0) {
+                contenedor.innerHTML = "<p style='color:#94a3b8; text-align:center;'>No se encontraron resultados 🔍</p>";
+                return;
+            }
+
+            ideasFiltradas.forEach(idea => {
+                let notaFormat = idea.nota.replace(/\n/g, "<br>");
                 const urlRegex = /(https?:\/\/[^\s]+)/g;
-                notaFormat = notaFormat.replace(urlRegex, function(url) {
-                    return `<a href="${url}" target="_blank">${url}</a>`;
-                });
+                notaFormat = notaFormat.replace(urlRegex, url => `<a href="${url}" target="_blank">${url}</a>`);
+
+                // Definir colores según categoría
+                let claseBorde = "border-general";
+                let claseTag = "tag-general";
+                let emojiCat = "📂";
+
+                if (idea.categoria === "Salud") { claseBorde = "border-salud"; claseTag = "tag-salud"; emojiCat = "🌿"; }
+                if (idea.categoria === "Sociedad") { claseBorde = "border-sociedad"; claseTag = "tag-sociedad"; emojiCat = "⚖️"; }
+                if (idea.categoria === "Energia") { claseBorde = "border-energia"; claseTag = "tag-energia"; emojiCat = "🔮"; }
+
+                // Categoría por defecto si es antigua (sin categoría)
+                const catNombre = idea.categoria || "General";
 
                 const tarjetaHTML = `
-                    <div class="idea-card">
+                    <div class="idea-card ${claseBorde}">
                         <div class="action-buttons">
-                            <!-- Botón Editar (Lápiz) -->
                             <button onclick="prepararEdicion(${idea.id})" class="icon-btn btn-edit" title="Editar">✏️</button>
-                            <!-- Botón Borrar (X) -->
                             <button onclick="borrarIdea(${idea.id})" class="icon-btn btn-delete" title="Borrar">×</button>
                         </div>
                         
+                        <span class="cat-tag ${claseTag}">${emojiCat} ${catNombre}</span>
+                        
                         <h3 style="color: #f8fafc; margin-bottom: 5px; padding-right: 70px;">${idea.titulo}</h3>
                         <small style="color: #64748b;">📅 ${idea.fecha}</small>
-                        
                         <p style="color: #94a3b8; margin-top: 10px; word-break: break-word;" class="idea-content">
                             ${notaFormat}
                         </p>
@@ -326,66 +338,114 @@
             });
         }
 
-        /**
-         * FUNCIÓN: Borrar Idea
-         */
+        // --- 3. BUSCADOR INSTANTÁNEO ---
+        function filtrarIdeas() {
+            const texto = document.getElementById('busquedaInput').value;
+            cargarIdeas(texto);
+        }
+
+        // --- 4. BORRAR ---
         function borrarIdea(id) {
             if(confirm("¿Eliminar esta idea?")) {
                 let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
                 listaIdeas = listaIdeas.filter(idea => idea.id !== id);
                 localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
-                cargarIdeas();
-                
-                // Si borramos la que estábamos editando, cancelar edición
-                if (document.getElementById('idEdicion').value == id) {
-                    cancelarEdicion();
-                }
+                cargarIdeas(document.getElementById('busquedaInput').value); // Mantener filtro
+                if (document.getElementById('idEdicion').value == id) cancelarEdicion();
             }
         }
 
-        /**
-         * FUNCIÓN: Preparar Edición
-         * Sube los datos de la tarjeta al formulario
-         */
+        // --- 5. EDICIÓN ---
         function prepararEdicion(id) {
             let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
             const idea = listaIdeas.find(i => i.id === id);
-
             if (idea) {
-                // 1. Rellenar formulario
                 document.getElementById('tituloInput').value = idea.titulo;
                 document.getElementById('notaInput').value = idea.nota;
+                document.getElementById('categoriaInput').value = idea.categoria || "General"; // Cargar categoría
                 document.getElementById('idEdicion').value = idea.id;
 
-                // 2. Cambiar aspecto visual del botón
                 const btn = document.getElementById('btnGuardar');
                 btn.innerHTML = "🔄 Actualizar Idea";
-                btn.classList.add('editing'); // Se vuelve naranja
+                btn.classList.add('editing');
 
-                // 3. Mostrar botón cancelar y texto de aviso
                 document.getElementById('btnCancelar').style.display = "block";
                 document.getElementById('indicadorEdicion').style.display = "block";
-
-                // 4. Scroll suave hacia arriba para ver el formulario
                 document.getElementById('zonaFormulario').scrollIntoView({ behavior: 'smooth' });
             }
         }
 
-        /**
-         * FUNCIÓN: Cancelar Edición
-         * Limpia todo y devuelve el botón a su estado normal
-         */
         function cancelarEdicion() {
             document.getElementById('tituloInput').value = "";
             document.getElementById('notaInput').value = "";
+            document.getElementById('categoriaInput').value = "General";
             document.getElementById('idEdicion').value = "";
 
             const btn = document.getElementById('btnGuardar');
             btn.innerHTML = "💾 Guardar en Bandeja";
-            btn.classList.remove('editing'); // Vuelve a ser azul
+            btn.classList.remove('editing');
 
             document.getElementById('btnCancelar').style.display = "none";
             document.getElementById('indicadorEdicion').style.display = "none";
+        }
+
+        // --- 6. RESPALDO (Descargar) ---
+        function descargarRespaldo() {
+            const datos = localStorage.getItem('misIdeasResearch');
+            if (!datos || datos === '[]') { alert("📭 Nada que respaldar."); return; }
+            
+            const archivo = new Blob([JSON.stringify(JSON.parse(datos), null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(archivo);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `respaldo_research_${new Date().toISOString().slice(0, 10)}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // --- 7. RESTAURAR (Subir Archivo) ---
+        function procesarArchivo(input) {
+            const archivo = input.files[0];
+            if (!archivo) return;
+
+            const lector = new FileReader();
+            lector.onload = function(e) {
+                try {
+                    // 1. Leer el archivo subido
+                    const ideasNuevas = JSON.parse(e.target.result);
+                    
+                    if (!Array.isArray(ideasNuevas)) {
+                        alert("⚠️ Error: El archivo no tiene el formato correcto.");
+                        return;
+                    }
+
+                    // 2. Combinar con lo actual (Evitar duplicados por ID)
+                    let ideasActuales = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
+                    
+                    // Estrategia de fusión: Agregamos las nuevas al principio.
+                    // Si ya existe un ID, damos preferencia al importado (o podríamos saltarlo).
+                    // Aquí simplemente concatenamos y filtramos duplicados de ID.
+                    const idsActuales = new Set(ideasActuales.map(i => i.id));
+                    const ideasParaAgregar = ideasNuevas.filter(i => !idsActuales.has(i.id));
+
+                    const listaFinal = [...ideasParaAgregar, ...ideasActuales];
+
+                    // 3. Guardar
+                    localStorage.setItem('misIdeasResearch', JSON.stringify(listaFinal));
+                    
+                    alert(`✅ ¡Éxito! Se han restaurado ${ideasParaAgregar.length} notas.`);
+                    cargarIdeas(); // Refrescar
+
+                } catch (error) {
+                    alert("❌ Error al leer el archivo JSON. Asegúrate de que sea un respaldo válido.");
+                    console.error(error);
+                }
+                // Limpiar input para permitir subir el mismo archivo de nuevo si se desea
+                input.value = ""; 
+            };
+            lector.readAsText(archivo);
         }
     </script>
 
