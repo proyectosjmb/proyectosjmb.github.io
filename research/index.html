@@ -1,85 +1,267 @@
+<!-- 
+    ****************************************************************************
+    🟢 ARCHIVO: research/index.html
+    UBICACIÓN: Carpeta "research"
+    
+    DESCRIPCIÓN:
+    Página del Laboratorio de Investigación.
+    NUEVO: Incluye un sistema de "Captura Rápida" (Inbox) que guarda tus ideas
+    en la memoria del navegador (LocalStorage) para que no se pierdan.
+    ****************************************************************************
+-->
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- ======================================================= -->
+    <!-- 🟢 CONFIGURACIÓN TÉCNICA (HEAD) -->
+    <!-- ======================================================= -->
+
     <meta charset="UTF-8">
-    <!-- Juego de caracteres para mostrar bien acentos, símbolos, etc. -->
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Hace que el sitio se adapte a pantallas pequeñas (diseño responsive) -->
-
     <title>Research Lab | JMB</title>
-    <!-- Título que aparece en la pestaña del navegador -->
 
+    <!-- CONEXIÓN CSS -->
     <link rel="stylesheet" href="../css/style.css">
-    <!-- Usa el mismo archivo de estilos maestro del resto del portafolio -->
+
+    <!-- 🟢 ESTILOS EXTRA PARA EL FORMULARIO (CSS INTERNO) -->
+    <!-- Ponemos esto aquí para personalizar los inputs de texto solo en esta página -->
+    <style>
+        /* Estilo para el área de captura (Formulario) */
+        .input-zone {
+            background-color: #1e293b; /* Mismo color que las tarjetas */
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px; /* Separación con las tarjetas de abajo */
+            border: 1px solid #38bdf8; /* Borde azul para destacar que es interactivo */
+        }
+
+        /* Estilo para las cajas de texto (Inputs) */
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background-color: #0f172a; /* Fondo más oscuro */
+            border: 1px solid #334155;
+            color: #f8fafc; /* Texto blanco */
+            border-radius: 6px;
+            font-family: inherit; /* Usa la misma letra que la web */
+        }
+
+        /* Estilo especial para el área de texto grande (Textarea) */
+        textarea.input-field {
+            min-height: 80px; /* Altura mínima */
+            resize: vertical; /* Permite estirar la caja */
+        }
+
+        /* Botón de guardar personalizado */
+        .btn-save {
+            background-color: #38bdf8;
+            color: #0f172a;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn-save:hover { background-color: #0ea5e9; }
+
+        /* Estilo para las tarjetas de ideas dinámicas */
+        .idea-card {
+            background-color: #1e293b;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #38bdf8; /* Línea azul a la izquierda */
+            margin-bottom: 15px;
+            position: relative; /* Para poder colocar el botón de borrar */
+        }
+
+        /* Botón pequeño para borrar ideas (X) */
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #ef4444; /* Rojo */
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+        .delete-btn:hover { color: #dc2626; }
+        
+        /* Links dentro de las notas */
+        .idea-content a { color: #38bdf8; text-decoration: underline; }
+    </style>
 </head>
 
 <body>
 
     <div class="container">
-        <!-- CONTENEDOR PRINCIPAL: centra el contenido y limita su ancho máximo -->
-
-        <!-- ENLACE PARA VOLVER AL DASHBOARD PRINCIPAL -->
+        
+        <!-- BOTÓN VOLVER -->
         <a href="../index.html" class="back-btn">&larr; Volver al Inicio</a>
 
         <header>
-            <!-- ENCABEZADO DE LA SECCIÓN RESEARCH LAB -->
             <h1>🔬 Research <span>Lab</span></h1>
-            <!-- "Lab" se resalta con el color de acento definido en el CSS -->
-
-            <p class="subtitle">Investigaciones profundas y biohacking.</p>
-            <!-- Descripción corta del enfoque de esta sección -->
+            <p class="subtitle">Bandeja de entrada de ideas e investigaciones profundas.</p>
         </header>
 
-        <!-- GRID DE TARJETAS DE INVESTIGACIÓN -->
+        <!-- ======================================================= -->
+        <!-- 🟢 SECCIÓN 1: CAPTURA RÁPIDA (INBOX) -->
+        <!-- ======================================================= -->
+        <div class="input-zone">
+            <h3 style="margin-bottom: 15px;">📥 Captura Rápida de Ideas</h3>
+            
+            <!-- Entrada del Título -->
+            <input type="text" id="tituloInput" class="input-field" placeholder="Título de la idea (Ej: Video sobre ayuno intermitente...)">
+            
+            <!-- Entrada de Notas/Links -->
+            <textarea id="notaInput" class="input-field" placeholder="Pega aquí URLs, notas rápidas o referencias..."></textarea>
+            
+            <!-- Botón que activa la función JavaScript -->
+            <button onclick="guardarIdea()" class="btn-save">💾 Guardar en Bandeja</button>
+        </div>
+
+        <!-- AQUÍ APARECERÁN LAS IDEAS GUARDADAS -->
+        <!-- Este div está vacío, lo llenaremos con JavaScript dinámicamente -->
+        <div id="contenedorIdeas" class="grid" style="margin-bottom: 4rem;">
+            <!-- Las tarjetas nuevas se inyectan aquí -->
+        </div>
+
+
+        <!-- ======================================================= -->
+        <!-- 🟢 SECCIÓN 2: LÍNEAS DE INVESTIGACIÓN (ESTÁTICAS) -->
+        <!-- ======================================================= -->
+        <h2 style="margin-bottom: 20px; border-top: 1px solid #334155; padding-top: 20px;">🗂️ Archivos de Investigación</h2>
+        
         <div class="grid">
             
-            <!-- ===== CARD 1 — SALUD & BIOHACKING ===== -->
+            <!-- CARD 1: SALUD -->
             <a href="#" class="card">
-                <!-- 
-                    Tarjeta clickeable completa.
-                    Más adelante puedes apuntarla a un doc, Notion o webapp.
-                -->
                 <div>
-                    <h3>🌿 Salud &amp; Biohacking</h3>
+                    <h3>🌿 Salud & Biohacking</h3>
                     <p>Protocolos de optimización física.</p>
-                    
-                    <!-- 
-                        Lista de subtemas dentro de esta línea de investigación.
-                        Los estilos están definidos inline; luego se pueden migrar a CSS.
-                    -->
                     <ul style="margin-top: 10px; padding-left: 20px; color: #94a3b8; font-size: 0.85rem;">
-                        <li>Aumentar Testosterona &amp; Alimentación Consciente</li>
+                        <li>Aumentar Testosterona & Alimentación Consciente</li>
                         <li>Investigación Resveratrol</li>
                         <li>Orégano, Disbiosis y Herbolaria</li>
                     </ul>
                 </div>
                 <span class="tag">Leer Notas 📄</span>
-                <!-- CTA para indicar que hay apuntes o documentos -->
             </a>
 
-            <!-- ===== CARD 2 — SOCIEDAD Y ECONOMÍA ===== -->
+            <!-- CARD 2: SOCIEDAD -->
             <a href="#" class="card">
                 <div>
                     <h3>⚖️ Sociedad y Economía</h3>
                     <p>Análisis sobre Riqueza, Trabajo y Desigualdad.</p>
                 </div>
                 <span class="tag">Leer Ensayos 📄</span>
-                <!-- Para ensayos o artículos largos tipo reflexión / análisis -->
             </a>
 
-            <!-- ===== CARD 3 — ENERGÍA & HERRAMIENTAS ===== -->
+            <!-- CARD 3: ENERGÍA -->
             <a href="#" class="card">
                 <div>
-                    <h3>🔮 Energía &amp; Herramientas</h3>
-                    <p>Estudios sobre uso de varillas de radiestesia y energías sutiles.</p>
+                    <h3>🔮 Energía & Herramientas</h3>
+                    <p>Estudios sobre varillas de radiestesia y energías sutiles.</p>
                 </div>
                 <span class="tag">Ver Investigación 📄</span>
-                <!-- Indica acceso a reportes o bitácoras de pruebas -->
             </a>
 
-        </div> <!-- /grid -->
-    </div> <!-- /container -->
+        </div> <!-- Fin Grid Estática -->
+
+    </div> <!-- Fin Container -->
+
+
+    <!-- ======================================================= -->
+    <!-- 🟢 CEREBRO JAVASCRIPT: LÓGICA DE GUARDADO -->
+    <!-- ======================================================= -->
+    <script>
+        // 1. AL CARGAR LA PÁGINA: Recuperar lo que ya teníamos guardado
+        document.addEventListener('DOMContentLoaded', cargarIdeas);
+
+        function guardarIdea() {
+            // A. OBTENER DATOS: Sacamos lo que escribiste en las cajas
+            const titulo = document.getElementById('tituloInput').value;
+            const nota = document.getElementById('notaInput').value;
+
+            // B. VALIDACIÓN: Si no hay título, regañamos al usuario
+            if (titulo === "") {
+                alert("⚠️ ¡Escribe al menos un título para la idea!");
+                return;
+            }
+
+            // C. CREAR OBJETO: Empaquetamos la información en un paquete ordenado
+            const nuevaIdea = {
+                id: Date.now(), // Usamos la hora exacta como ID único
+                titulo: titulo,
+                nota: nota,
+                fecha: new Date().toLocaleDateString() // Guardamos la fecha de hoy
+            };
+
+            // D. GUARDAR EN MEMORIA (LocalStorage)
+            // 1. Bajamos la lista actual de ideas (o creamos una vacía si no hay)
+            let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
+            // 2. Agregamos la nueva al principio
+            listaIdeas.unshift(nuevaIdea);
+            // 3. Guardamos la lista actualizada en el navegador
+            localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
+
+            // E. LIMPIEZA VISUAL
+            document.getElementById('tituloInput').value = ""; // Borrar caja título
+            document.getElementById('notaInput').value = "";   // Borrar caja nota
+            
+            // F. ACTUALIZAR PANTALLA
+            cargarIdeas(); // Volver a dibujar las tarjetas
+        }
+
+        function cargarIdeas() {
+            // 1. OBTENER LISTA DE MEMORIA
+            let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
+            const contenedor = document.getElementById('contenedorIdeas');
+            
+            // 2. LIMPIAR PANTALLA (Para no duplicar al recargar)
+            contenedor.innerHTML = "";
+
+            // 3. DIBUJAR CADA IDEA
+            listaIdeas.forEach(idea => {
+                // Creamos el HTML de la tarjeta
+                // Nota: Convertimos los saltos de línea (\n) en etiquetas <br> para que se vean bien
+                let notaConFormatos = idea.nota.replace(/\n/g, "<br>");
+                
+                // Si la nota contiene "http", intentamos hacerla clicable (básico)
+                // (Para simplificar, aquí solo mostramos el texto, pero el usuario puede copiar/pegar)
+                
+                const tarjetaHTML = `
+                    <div class="idea-card">
+                        <button onclick="borrarIdea(${idea.id})" class="delete-btn" title="Borrar">×</button>
+                        <h3 style="color: #f8fafc; margin-bottom: 5px;">${idea.titulo}</h3>
+                        <small style="color: #64748b;">📅 ${idea.fecha}</small>
+                        <p style="color: #94a3b8; margin-top: 10px; word-break: break-word;" class="idea-content">
+                            ${notaConFormatos}
+                        </p>
+                    </div>
+                `;
+                
+                // Insertamos la tarjeta en el contenedor
+                contenedor.innerHTML += tarjetaHTML;
+            });
+        }
+
+        function borrarIdea(id) {
+            if(confirm("¿Ya procesaste esta idea? Se eliminará de la lista.")) {
+                // 1. BAJAR LISTA
+                let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
+                // 2. FILTRAR (Dejar todas MENOS la que tiene ese ID)
+                listaIdeas = listaIdeas.filter(idea => idea.id !== id);
+                // 3. GUARDAR LISTA NUEVA
+                localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
+                // 4. REFLEJAR CAMBIOS
+                cargarIdeas();
+            }
+        }
+    </script>
 
 </body>
 </html>
