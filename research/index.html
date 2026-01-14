@@ -4,9 +4,8 @@
     UBICACIÓN: Carpeta "research"
     
     DESCRIPCIÓN:
-    Página del Laboratorio de Investigación.
-    NUEVO: Incluye un sistema de "Captura Rápida" (Inbox) que guarda tus ideas
-    en la memoria del navegador (LocalStorage) para que no se pierdan.
+    Laboratorio de Investigación + Bandeja de Entrada (Inbox).
+    ACTUALIZACIÓN: Botón moderno y sistema de EDICIÓN de notas.
     ****************************************************************************
 -->
 
@@ -14,7 +13,7 @@
 <html lang="es">
 <head>
     <!-- ======================================================= -->
-    <!-- 🟢 CONFIGURACIÓN TÉCNICA (HEAD) -->
+    <!-- 🟢 CONFIGURACIÓN TÉCNICA -->
     <!-- ======================================================= -->
 
     <meta charset="UTF-8">
@@ -24,71 +23,122 @@
     <!-- CONEXIÓN CSS -->
     <link rel="stylesheet" href="../css/style.css">
 
-    <!-- 🟢 ESTILOS EXTRA PARA EL FORMULARIO (CSS INTERNO) -->
-    <!-- Ponemos esto aquí para personalizar los inputs de texto solo en esta página -->
+    <!-- 🟢 ESTILOS EXTRA (CSS INTERNO) -->
     <style>
-        /* Estilo para el área de captura (Formulario) */
+        /* Estilo para el área de captura */
         .input-zone {
-            background-color: #1e293b; /* Mismo color que las tarjetas */
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px; /* Separación con las tarjetas de abajo */
-            border: 1px solid #38bdf8; /* Borde azul para destacar que es interactivo */
+            background-color: #1e293b;
+            padding: 25px;
+            border-radius: 16px; /* Bordes más redondeados */
+            margin-bottom: 30px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
 
-        /* Estilo para las cajas de texto (Inputs) */
+        /* Inputs (Cajas de texto) */
         .input-field {
             width: 100%;
-            padding: 12px;
+            padding: 15px;
             margin-bottom: 15px;
-            background-color: #0f172a; /* Fondo más oscuro */
+            background-color: #0f172a;
             border: 1px solid #334155;
-            color: #f8fafc; /* Texto blanco */
-            border-radius: 6px;
-            font-family: inherit; /* Usa la misma letra que la web */
+            color: #f8fafc;
+            border-radius: 8px;
+            font-family: inherit;
+            transition: border-color 0.3s;
         }
 
-        /* Estilo especial para el área de texto grande (Textarea) */
+        .input-field:focus {
+            outline: none;
+            border-color: #38bdf8; /* Azul al escribir */
+        }
+
         textarea.input-field {
-            min-height: 80px; /* Altura mínima */
-            resize: vertical; /* Permite estirar la caja */
+            min-height: 100px;
+            resize: vertical;
         }
 
-        /* Botón de guardar personalizado */
+        /* --- BOTÓN MODERNO (FLOTANTE) --- */
         .btn-save {
-            background-color: #38bdf8;
-            color: #0f172a;
-            padding: 10px 20px;
+            width: 100%;
+            /* Degradado moderno */
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: white;
+            padding: 15px 25px;
             border: none;
-            border-radius: 6px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            
+            /* Efecto de sombra y flotación */
+            box-shadow: 0 10px 15px -3px rgba(56, 189, 248, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .btn-save:hover { background-color: #0ea5e9; }
 
-        /* Estilo para las tarjetas de ideas dinámicas */
+        .btn-save:hover {
+            transform: translateY(-3px); /* Se eleva */
+            box-shadow: 0 20px 25px -5px rgba(56, 189, 248, 0.5); /* Sombra crece */
+            filter: brightness(1.1);
+        }
+
+        .btn-save:active {
+            transform: translateY(1px); /* Efecto de clic */
+        }
+
+        /* Estilo diferente cuando estamos EDITANDO */
+        .btn-save.editing {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); /* Naranja */
+            box-shadow: 0 10px 15px -3px rgba(245, 158, 11, 0.4);
+        }
+
+        /* --- TARJETAS DE IDEAS --- */
         .idea-card {
             background-color: #1e293b;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid #38bdf8; /* Línea azul a la izquierda */
-            margin-bottom: 15px;
-            position: relative; /* Para poder colocar el botón de borrar */
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 5px solid #38bdf8;
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeIn 0.5s ease;
         }
 
-        /* Botón pequeño para borrar ideas (X) */
-        .delete-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: none;
-            border: none;
-            color: #ef4444; /* Rojo */
-            cursor: pointer;
-            font-size: 1.2rem;
+        /* Animación de entrada suave */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .delete-btn:hover { color: #dc2626; }
+
+        /* BOTONES DE ACCIÓN (Editar / Borrar) */
+        .action-buttons {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            background: rgba(15, 23, 42, 0.5);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            font-size: 1rem;
+        }
+
+        .btn-edit { color: #f59e0b; } /* Lápiz amarillo */
+        .btn-edit:hover { background-color: #f59e0b; color: #fff; }
+
+        .btn-delete { color: #ef4444; } /* Tache rojo */
+        .btn-delete:hover { background-color: #ef4444; color: #fff; }
         
         /* Links dentro de las notas */
         .idea-content a { color: #38bdf8; text-decoration: underline; }
@@ -110,23 +160,28 @@
         <!-- ======================================================= -->
         <!-- 🟢 SECCIÓN 1: CAPTURA RÁPIDA (INBOX) -->
         <!-- ======================================================= -->
-        <div class="input-zone">
-            <h3 style="margin-bottom: 15px;">📥 Captura Rápida de Ideas</h3>
+        <div class="input-zone" id="zonaFormulario">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3>📥 Captura Rápida</h3>
+                <!-- Indicador visual de modo edición (oculto por defecto) -->
+                <span id="indicadorEdicion" style="display: none; color: #f59e0b; font-size: 0.9rem; font-weight: bold;">✏️ MODO EDICIÓN</span>
+            </div>
             
-            <!-- Entrada del Título -->
-            <input type="text" id="tituloInput" class="input-field" placeholder="Título de la idea (Ej: Video sobre ayuno intermitente...)">
-            
-            <!-- Entrada de Notas/Links -->
+            <!-- Campo oculto para saber si estamos editando una ID específica -->
+            <input type="hidden" id="idEdicion" value="">
+
+            <input type="text" id="tituloInput" class="input-field" placeholder="Título de la idea (Ej: Video sobre ayuno...)">
             <textarea id="notaInput" class="input-field" placeholder="Pega aquí URLs, notas rápidas o referencias..."></textarea>
             
-            <!-- Botón que activa la función JavaScript -->
-            <button onclick="guardarIdea()" class="btn-save">💾 Guardar en Bandeja</button>
+            <button onclick="guardarIdea()" id="btnGuardar" class="btn-save">💾 Guardar en Bandeja</button>
+            
+            <!-- Botón para cancelar edición (oculto por defecto) -->
+            <button onclick="cancelarEdicion()" id="btnCancelar" style="display: none; width: 100%; margin-top: 10px; background: transparent; border: 1px solid #475569; color: #94a3b8; padding: 10px; border-radius: 6px; cursor: pointer;">Cancelar Edición</button>
         </div>
 
-        <!-- AQUÍ APARECERÁN LAS IDEAS GUARDADAS -->
-        <!-- Este div está vacío, lo llenaremos con JavaScript dinámicamente -->
+        <!-- CONTENEDOR DE IDEAS DINÁMICAS -->
         <div id="contenedorIdeas" class="grid" style="margin-bottom: 4rem;">
-            <!-- Las tarjetas nuevas se inyectan aquí -->
+            <!-- Aquí se inyectan las tarjetas con JS -->
         </div>
 
 
@@ -137,7 +192,7 @@
         
         <div class="grid">
             
-            <!-- CARD 1: SALUD -->
+            <!-- CARD 1 -->
             <a href="#" class="card">
                 <div>
                     <h3>🌿 Salud & Biohacking</h3>
@@ -151,7 +206,7 @@
                 <span class="tag">Leer Notas 📄</span>
             </a>
 
-            <!-- CARD 2: SOCIEDAD -->
+            <!-- CARD 2 -->
             <a href="#" class="card">
                 <div>
                     <h3>⚖️ Sociedad y Economía</h3>
@@ -160,106 +215,177 @@
                 <span class="tag">Leer Ensayos 📄</span>
             </a>
 
-            <!-- CARD 3: ENERGÍA -->
+            <!-- CARD 3 -->
             <a href="#" class="card">
                 <div>
                     <h3>🔮 Energía & Herramientas</h3>
-                    <p>Estudios sobre varillas de radiestesia y energías sutiles.</p>
+                    <p>Estudios sobre varillas de radiestesia.</p>
                 </div>
                 <span class="tag">Ver Investigación 📄</span>
             </a>
 
-        </div> <!-- Fin Grid Estática -->
-
-    </div> <!-- Fin Container -->
+        </div>
+    </div>
 
 
     <!-- ======================================================= -->
-    <!-- 🟢 CEREBRO JAVASCRIPT: LÓGICA DE GUARDADO -->
+    <!-- 🟢 CEREBRO JAVASCRIPT: LÓGICA DE GUARDADO Y EDICIÓN -->
     <!-- ======================================================= -->
     <script>
-        // 1. AL CARGAR LA PÁGINA: Recuperar lo que ya teníamos guardado
+        // Cargar ideas al iniciar
         document.addEventListener('DOMContentLoaded', cargarIdeas);
 
+        /**
+         * FUNCIÓN PRINCIPAL: Guardar o Actualizar
+         * Decide si crea una nueva o modifica una existente según si hay un ID oculto.
+         */
         function guardarIdea() {
-            // A. OBTENER DATOS: Sacamos lo que escribiste en las cajas
             const titulo = document.getElementById('tituloInput').value;
             const nota = document.getElementById('notaInput').value;
+            const idEdicion = document.getElementById('idEdicion').value; // ¿Hay un ID pendiente?
 
-            // B. VALIDACIÓN: Si no hay título, regañamos al usuario
-            if (titulo === "") {
-                alert("⚠️ ¡Escribe al menos un título para la idea!");
+            if (titulo.trim() === "") {
+                alert("⚠️ Por favor escribe un título.");
                 return;
             }
 
-            // C. CREAR OBJETO: Empaquetamos la información en un paquete ordenado
-            const nuevaIdea = {
-                id: Date.now(), // Usamos la hora exacta como ID único
-                titulo: titulo,
-                nota: nota,
-                fecha: new Date().toLocaleDateString() // Guardamos la fecha de hoy
-            };
-
-            // D. GUARDAR EN MEMORIA (LocalStorage)
-            // 1. Bajamos la lista actual de ideas (o creamos una vacía si no hay)
+            // Recuperar lista actual
             let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
-            // 2. Agregamos la nueva al principio
-            listaIdeas.unshift(nuevaIdea);
-            // 3. Guardamos la lista actualizada en el navegador
-            localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
 
-            // E. LIMPIEZA VISUAL
-            document.getElementById('tituloInput').value = ""; // Borrar caja título
-            document.getElementById('notaInput').value = "";   // Borrar caja nota
+            if (idEdicion) {
+                // --- MODO ACTUALIZAR ---
+                // Buscamos la idea vieja y le cambiamos los datos
+                const indice = listaIdeas.findIndex(idea => idea.id == idEdicion);
+                if (indice !== -1) {
+                    listaIdeas[indice].titulo = titulo;
+                    listaIdeas[indice].nota = nota;
+                    // No cambiamos la fecha original, o podríamos poner fecha de edición
+                }
+                // Salimos del modo edición
+                cancelarEdicion();
+            } else {
+                // --- MODO CREAR NUEVO ---
+                const nuevaIdea = {
+                    id: Date.now(),
+                    titulo: titulo,
+                    nota: nota,
+                    fecha: new Date().toLocaleDateString()
+                };
+                listaIdeas.unshift(nuevaIdea); // Agregar al principio
+            }
+
+            // Guardar en navegador y refrescar pantalla
+            localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
             
-            // F. ACTUALIZAR PANTALLA
-            cargarIdeas(); // Volver a dibujar las tarjetas
+            // Limpiar formulario solo si no estamos editando (aunque cancelarEdicion ya lo hace)
+            if (!idEdicion) {
+                document.getElementById('tituloInput').value = "";
+                document.getElementById('notaInput').value = "";
+            }
+            
+            cargarIdeas();
         }
 
+        /**
+         * FUNCIÓN: Cargar Ideas
+         * Dibuja las tarjetas en la pantalla
+         */
         function cargarIdeas() {
-            // 1. OBTENER LISTA DE MEMORIA
             let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
             const contenedor = document.getElementById('contenedorIdeas');
-            
-            // 2. LIMPIAR PANTALLA (Para no duplicar al recargar)
             contenedor.innerHTML = "";
 
-            // 3. DIBUJAR CADA IDEA
             listaIdeas.forEach(idea => {
-                // Creamos el HTML de la tarjeta
-                // Nota: Convertimos los saltos de línea (\n) en etiquetas <br> para que se vean bien
-                let notaConFormatos = idea.nota.replace(/\n/g, "<br>");
-                
-                // Si la nota contiene "http", intentamos hacerla clicable (básico)
-                // (Para simplificar, aquí solo mostramos el texto, pero el usuario puede copiar/pegar)
-                
+                let notaFormat = idea.nota.replace(/\n/g, "<br>");
+
+                // Detectar URLs básicas para hacerlas clicables
+                // (Expresión regular simple para detectar http/https)
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                notaFormat = notaFormat.replace(urlRegex, function(url) {
+                    return `<a href="${url}" target="_blank">${url}</a>`;
+                });
+
                 const tarjetaHTML = `
                     <div class="idea-card">
-                        <button onclick="borrarIdea(${idea.id})" class="delete-btn" title="Borrar">×</button>
-                        <h3 style="color: #f8fafc; margin-bottom: 5px;">${idea.titulo}</h3>
+                        <div class="action-buttons">
+                            <!-- Botón Editar (Lápiz) -->
+                            <button onclick="prepararEdicion(${idea.id})" class="icon-btn btn-edit" title="Editar">✏️</button>
+                            <!-- Botón Borrar (X) -->
+                            <button onclick="borrarIdea(${idea.id})" class="icon-btn btn-delete" title="Borrar">×</button>
+                        </div>
+                        
+                        <h3 style="color: #f8fafc; margin-bottom: 5px; padding-right: 70px;">${idea.titulo}</h3>
                         <small style="color: #64748b;">📅 ${idea.fecha}</small>
+                        
                         <p style="color: #94a3b8; margin-top: 10px; word-break: break-word;" class="idea-content">
-                            ${notaConFormatos}
+                            ${notaFormat}
                         </p>
                     </div>
                 `;
-                
-                // Insertamos la tarjeta en el contenedor
                 contenedor.innerHTML += tarjetaHTML;
             });
         }
 
+        /**
+         * FUNCIÓN: Borrar Idea
+         */
         function borrarIdea(id) {
-            if(confirm("¿Ya procesaste esta idea? Se eliminará de la lista.")) {
-                // 1. BAJAR LISTA
+            if(confirm("¿Eliminar esta idea?")) {
                 let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
-                // 2. FILTRAR (Dejar todas MENOS la que tiene ese ID)
                 listaIdeas = listaIdeas.filter(idea => idea.id !== id);
-                // 3. GUARDAR LISTA NUEVA
                 localStorage.setItem('misIdeasResearch', JSON.stringify(listaIdeas));
-                // 4. REFLEJAR CAMBIOS
                 cargarIdeas();
+                
+                // Si borramos la que estábamos editando, cancelar edición
+                if (document.getElementById('idEdicion').value == id) {
+                    cancelarEdicion();
+                }
             }
+        }
+
+        /**
+         * FUNCIÓN: Preparar Edición
+         * Sube los datos de la tarjeta al formulario
+         */
+        function prepararEdicion(id) {
+            let listaIdeas = JSON.parse(localStorage.getItem('misIdeasResearch') || '[]');
+            const idea = listaIdeas.find(i => i.id === id);
+
+            if (idea) {
+                // 1. Rellenar formulario
+                document.getElementById('tituloInput').value = idea.titulo;
+                document.getElementById('notaInput').value = idea.nota;
+                document.getElementById('idEdicion').value = idea.id;
+
+                // 2. Cambiar aspecto visual del botón
+                const btn = document.getElementById('btnGuardar');
+                btn.innerHTML = "🔄 Actualizar Idea";
+                btn.classList.add('editing'); // Se vuelve naranja
+
+                // 3. Mostrar botón cancelar y texto de aviso
+                document.getElementById('btnCancelar').style.display = "block";
+                document.getElementById('indicadorEdicion').style.display = "block";
+
+                // 4. Scroll suave hacia arriba para ver el formulario
+                document.getElementById('zonaFormulario').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        /**
+         * FUNCIÓN: Cancelar Edición
+         * Limpia todo y devuelve el botón a su estado normal
+         */
+        function cancelarEdicion() {
+            document.getElementById('tituloInput').value = "";
+            document.getElementById('notaInput').value = "";
+            document.getElementById('idEdicion').value = "";
+
+            const btn = document.getElementById('btnGuardar');
+            btn.innerHTML = "💾 Guardar en Bandeja";
+            btn.classList.remove('editing'); // Vuelve a ser azul
+
+            document.getElementById('btnCancelar').style.display = "none";
+            document.getElementById('indicadorEdicion').style.display = "none";
         }
     </script>
 
